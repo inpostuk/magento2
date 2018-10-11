@@ -1,0 +1,36 @@
+<?php
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+?>
+
+<?php if ($block->isInpost()) : ?>
+    <?php $locker = $block->getLocker(); ?>
+    <?php if ($locker->getId()) : ?>
+        <tr>
+            <td class="inpost_td">
+                <h3><b><?php echo __('Collection details'); ?></b></h3>
+                <p><?php echo __('You will receive a text as soon as your items are ready to collect. Please bring a copy of your order confirmation with you.'); ?></p>
+                <h4><?php echo __('Collection address:') ?></h4>
+                <p>
+                    <b><?php echo $locker->getBuildingNo() ?></b>
+                    <br/>
+                    <?php echo $locker->getLocationDescription() ?>
+                    <br/>
+                    <?php echo $locker->getStreet(); ?>, <?php echo $locker->getCity(); ?>
+                    <br/>
+                    <?php echo $locker->getProvince(); ?>
+                    <br/>
+                    <?php echo $locker->getPostCode(); ?>
+                    <br/>
+                </p>
+                <h3><b><?php echo __('Opening Hours:'); ?></b></h3>
+                <p><?php echo __('Open 24/7') ?></p>
+            </td>
+        </tr>
+    <?php endif; ?>
+<?php endif; ?>

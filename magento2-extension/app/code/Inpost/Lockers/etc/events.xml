@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Event/etc/events.xsd">
+    <event name="sales_quote_address_load_after">
+        <observer name="inpost_load_locker_machine_identifier" instance="Inpost\Lockers\Observer\LoadShippingAddressObserver"/>
+    </event>
+    <event name="sales_quote_address_save_after">
+        <observer name="inpost_save_locker_machine_identifier" instance="Inpost\Lockers\Observer\SaveShippingAddressObserver"/>
+    </event>
+    <event name="sales_order_place_after">
+        <observer name="inpost_lockers_observer_place_order_after" instance="Inpost\Lockers\Observer\SalesPlaceOrderAfter" />
+    </event>
+</config>

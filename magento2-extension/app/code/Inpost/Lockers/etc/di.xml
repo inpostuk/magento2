@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <type name="Inpost\Lockers\Cron\Machine">
+        <arguments>
+            <argument name="objectManager" xsi:type="object">Magento\Framework\ObjectManagerInterface</argument>
+            <argument name="helper" xsi:type="object">Inpost\Lockers\Helper\Lockers</argument>
+            <argument name="client" xsi:type="object">Inpost\Lockers\Adapter\Client</argument>
+        </arguments>
+    </type>
+    <type name="Inpost\Lockers\Helper\Lockers">
+        <arguments>
+            <argument name="storeConfig" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface</argument>
+        </arguments>
+    </type>
+    
+    <preference for="Inpost\Lockers\Api\Data\MachineInterface" type="Inpost\Lockers\Model\Machine"/>
+    <preference for="Inpost\Lockers\Api\Data\MachineSearchResultsInterface" type="Inpost\Lockers\Model\ResourceModel\Machine\Collection"/>
+    <preference for="Inpost\Lockers\Api\Data\CoordinateTransportInterface" type="Inpost\Lockers\Model\CoordinateTransport"/>
+    <preference for="Inpost\Lockers\Api\MachineRepositoryInterface" type="Inpost\Lockers\Model\MachineRepository"/>
+    <preference for="Inpost\Lockers\Api\CoordinateServiceInterface" type="Inpost\Lockers\Model\CoordinateService"/>
+    <preference for="Magento\Framework\Api\CriteriaInterface" type="Inpost\Lockers\Model\ResourceModel\Machine\MachineCriteria"/>
+    <preference for="Inpost\Lockers\Api\Data\Checkout\AddressInterface" type="Inpost\Lockers\Model\Checkout\Address"/>
+    <preference for="Inpost\Lockers\Api\Checkout\AddressRepositoryInterface" type="Inpost\Lockers\Model\Checkout\AddressRepository"/>
+    <type name="Inpost\Lockers\Block\Adminhtml\Order\AbstractOrder">
+        <arguments>
+            <argument name="addressRepository" xsi:type="object">Inpost\Lockers\Api\Checkout\AddressRepositoryInterface</argument>
+            <argument name="quoteFactory" xsi:type="object">Magento\Quote\Model\QuoteFactory</argument>
+            <argument name="machineCollection" xsi:type="object">Inpost\Lockers\Model\ResourceModel\Machine\DataCollection</argument>
+        </arguments>
+    </type>
+    <type name="Inpost\Lockers\Adapter\Client">
+        <arguments>
+            <argument name="parcel" xsi:type="object">Inpost\Lockers\Model\Parcel</argument>
+        </arguments>
+    </type>
+
+    <type name="Inpost\Lockers\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Inpost\Lockers\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">inpostLockersLogger</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Inpost\Lockers\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <preference for="Magento\Sales\Block\Adminhtml\Order\AbstractOrder" type="Inpost\Lockers\Block\Adminhtml\Order\AbstractOrder"/>
+    <preference for="Magento\Shipping\Block\Adminhtml\View\Form" type="Inpost\Lockers\Block\Adminhtml\Shipping\View\Form"/>
+</config>

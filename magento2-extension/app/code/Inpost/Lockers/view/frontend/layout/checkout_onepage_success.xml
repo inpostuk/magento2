@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<body>
+    <referenceContainer name="order.success.additional.info">
+        <block class="Inpost\Lockers\Block\Success"
+               name="inpost.order.success"
+               template="Inpost_Lockers::order/success.phtml"
+               after="-">
+        </block>
+    </referenceContainer>
+</body>

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="inpost_lockers_machines" instance="Inpost\Lockers\Cron\Machine" method="execute">
+            <schedule>15 3 * * *</schedule>
+        </job>
+        <job name="inpost_lockers_update_order_statuses" instance="Inpost\Lockers\Cron\UpdateOrders" method="execute">
+             
+            <schedule>15 8,12,16 * * *</schedule>
+            
+            <!--
+            <schedule>* * * * *</schedule>
+            -->
+            
+        </job>
+    </group>
+</config>

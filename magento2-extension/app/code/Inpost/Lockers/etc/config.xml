@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <inpost>
+                <active>0</active>
+                <price>2.99</price>
+                <parcel_create>1</parcel_create>
+                <name>Fixed</name>
+                <title>InPost 24/7 Lockers</title>
+                <method_name>InPost Next Day Locker Collection</method_name>
+                <endpoint>https://api-uk.easypack24.net/v4/</endpoint>
+                <sallowspecific>0</sallowspecific>
+                <model>Inpost\Lockers\Model\Carrier\Inpost</model>
+                <type>I</type>
+                <map_radius>10</map_radius>
+                <weight>kg</weight>
+                <labels>pdf</labels>
+                <size_class>a</size_class>
+                <sort_order>0</sort_order>
+                <debug>0</debug>
+                <description>Collection next day if ordered before 6pm, Sunday to Friday only.</description>
+            </inpost>
+        </carriers>
+    </default>
+</config>

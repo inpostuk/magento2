@@ -1,0 +1,470 @@
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+
+.checkout-index-index .modal-popup .modal-inner-wrap {
+    width: 100vw !important;
+    max-width: 80% !important;
+    margin: 1% 0 3% 10% !important;
+    left: 0 !important;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.lockers .lockers-content .left {
+    width: 30%;
+    position: relative;
+}
+
+.lockers .lockers-content .right {
+    width: 70%;
+}
+
+.locker-help {
+    color: #aaa;
+    font-size: 12px;
+    padding: 0 0 10px 0;
+}
+
+.lockers #showmore, .lockers .points .point button, .info-window button {
+    min-height: 40px;
+}
+
+.lockers .lockers-content .top {
+    height: 12%;
+    padding-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    max-height: 40px;
+}
+
+.lockers .lockers-content .middle {
+    height: 100%;
+    float: right;
+    position: relative;
+    width: 70%;
+    min-height: 30px;
+}
+
+.lockers .lockers-content .top input {
+    height: 33px;
+    border: 1px solid black;
+    overflow: auto;
+    width: 100%;
+    padding: 0 0 0 30px;
+    max-width: calc(80% - 33px);
+    font-size: 14px;
+}
+
+.lockers .lockers-content .top button, .lockers #showmore, .lockers .points .point button, .info-window button {
+    background: #FFCB04;
+    font-weight: normal;
+    border: 1px solid black;
+    padding: 0;
+    font-family: 'Open Sans', sans-serif;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.lockers .lockers-content .top button {
+    max-width: 20%;
+}
+
+.lockers .points {
+    overflow: scroll;
+    height: calc(100% - 31px);
+    overflow-x: visible;
+    padding-right: 15px;
+}
+
+.lockers .points .point {
+    padding-bottom: 20px;
+}
+
+.lockers .points .point button {
+    background: #ffffff;
+}
+
+.lockers .points .point .point-content, .lockers .points .point button {
+    border: 1px solid #adadad;
+}
+
+.lockers .point .point-content .title {
+    font-size: 13px;
+    overflow: hidden;
+    display: table;
+    width: 100%;
+}
+
+.lockers .point .point-content .title .left {
+    padding-left: 5px;
+    display: table-column;
+    width: auto;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.lockers .point .point-content .title .right, .info-window .title .right {
+    display: table-column;
+    width: auto;
+    padding-right: 5px;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.lockers .point .point-content .address {
+    padding: 15px 5px;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.lockers .point .point-content .address p {
+    margin: 0;
+}
+
+.lockers .point .opening-hours {
+    padding: 0px 0 5px 5px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.lockers .point .hours {
+    display: none;
+}
+
+.lockers .point .hours.active {
+    display: block;
+}
+
+.lockers .point .hours > div {
+    padding: 10px 5px;
+}
+
+.info-window {
+    max-width: 300px;
+}
+
+.info-window-name {
+    padding: 0;
+    display: table-column;
+    width: auto;
+    float: left;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding-right: 20px;
+    margin: 1px 0 0 0;
+}
+
+.info-window-address {
+    padding: 10px 0;
+    clear: both;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 13px;
+    line-height: 15px;
+}
+
+.info-window-address p {
+    margin-bottom: 0;
+}
+
+.info-window .right {
+    font-size: 12px;
+}
+
+@media only screen and (max-width: 1300px) {
+    .points {
+        height: calc(100% - 54px);
+    }
+}
+
+.modal-slide .action-close {
+    padding: 2.1rem 3rem 0 0;
+}
+
+.clear {
+    clear: both;
+}
+
+.lockers .find-postcode {
+    position: absolute;
+}
+
+.lockers .lockers-content .left .points, .lockers .lockers-content .right {
+    max-height: calc(67vh - 79px);
+    overflow: hidden;
+}
+
+.lockers .lockers-content .right {
+    max-height: 67vh;
+}
+
+#showmore {
+    margin-top: 10px;
+}
+
+.lockers .lockers-content .left .points {
+    overflow-y: scroll;
+}
+
+.load-overlay {
+    display: none;
+}
+
+.load-overlay .overlay {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.4;
+    z-index: 2;
+    left: 0;
+}
+
+.load-overlay .overlay-logo {
+    animation-name: zoomingIn;
+    animation-direction: alternate;
+    animation-duration: 0.3s;
+    animation-iteration-count: 100;
+}
+
+.load-overlay .overlay-logo-container {
+    position: absolute;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.lockers h2 {
+    font-size: 18px;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    font-weight: 400;
+}
+
+@keyframes zoomingIn {
+    from {
+        transform: scale(0.7);
+    }
+    to {
+        transform: scale(1);
+    }
+}
+
+tr.locker td {
+    border-top: none;
+}
+
+.locker-selected-info .title {
+    font-weight: 700;
+    padding: 0 0 10px 0;
+}
+
+.locker-selected-info {
+    line-height: 10px;
+}
+
+.choose-locker {
+    padding: 10px 0 0 0;
+}
+
+#map {
+    height: 67vh;
+    width: 100%;
+    overflow: visible !important;
+}
+
+.point.active button.select {
+    background: #FFCB04;
+}
+
+.lockers .point .hours {
+    white-space: normal;
+}
+
+@media only screen and (max-width: 750px) {
+    .lockers .lockers-content > .left, .lockers .lockers-content > .right {
+        float: none;
+        width: 100%;
+    }
+
+    .lockers .lockers-content .left .points {
+        white-space: nowrap;
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+
+    .lockers .points .point {
+        display: inline-block;
+        vertical-align: top;
+        width: 250px;
+    }
+
+    .checkout-index-index .modal-popup .modal-inner-wrap {
+        margin: 1% 0 3% 0% !important;
+        max-width: 100% !important;
+    }
+
+    .modal-popup.modal-slide {
+        left: 0;
+    }
+
+    #map {
+        height: 55vh;
+    }
+
+    .lockers .lockers-content .middle {
+        width: 100%;
+    }
+
+    .lockers .lockers-content .top input {
+        height: 28px;
+    }
+
+    .lockers .points .point.show-more-mobile {
+        width: 100px;
+    }
+
+    .show-more-mobile .round {
+        width: 50px;
+        height: 50px;
+        margin: 54px 23px;
+        border: 1px solid;
+        border-radius: 32px;
+        box-shadow: 0px 1px;
+    }
+
+    .show-more-mobile .round img {
+        width: 25px;
+        margin: 12px;
+    }
+}
+
+.inpost-popup {
+    background-color: white;
+    display: none;
+    position: fixed;
+    width: auto;
+    max-width: 80%;
+    height: auto;
+    font-family: 'Open Sans', sans-serif;
+    z-index: 102;
+    padding-bottom: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.inpost-popup .lockers-close {
+    position: absolute;
+    right: 0;
+}
+
+.inpost-popup .lockers-close img {
+    width: 35px;
+    cursor: pointer;
+}
+
+.inpost-popup .inpost-content {
+    margin: 0 auto;
+    font-size: 16px;
+    max-width: 800px;
+    color: black;
+}
+
+.inpost-popup .inpost-content p {
+    padding: 0 20px;
+    margin: 16px 0;
+    font-size: 16px;
+    text-align: center;
+}
+
+.inpost-popup .inpost-content img {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+}
+
+.inpost-popup .top-container .inpost-video {
+    display: none;
+    width: 100%;
+    min-height: 300px;
+}
+
+.inpost-overlay {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    opacity: 0.4;
+    z-index: 100;
+    display: none;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.inpost-popup .inpost-link.button {
+    background: #000;
+    display: inline-block;
+    padding: 7px 15px;
+    border: 0;
+    color: #FFFFFF;
+    font-size: 13px;
+    font-weight: normal;
+    font-family: "Raleway", "Helvetica Neue", Verdana, Arial, sans-serif;
+    line-height: 19px;
+    text-align: center;
+    text-transform: uppercase;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.inpost-popup .inpost-link.button:hover {
+    background: #2e8ab8;
+}
+
+@media only screen and (max-width: 1300px) {
+    .inpost-popup{
+        width: 70%;
+    }
+}
+
+
+.locker-phone-message {
+    color: #aaa;
+    font-size: 12px;
+    padding: 10px 0 10px 0;
+}
+
+.validation-message {
+    color: #e02b27;
+    font-size: 1.2rem;
+    padding-top: 10px;
+}
+
+.block .locker-selected-info p:last-child {
+    margin-top: 0rem;
+    margin-bottom: 1rem;
+}
+
+.paypal-express-review .inpost-button-container {
+    padding-top: 10px;
+}

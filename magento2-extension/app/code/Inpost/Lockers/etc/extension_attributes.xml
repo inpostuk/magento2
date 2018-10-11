@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <!-- Additional attribute used during save quote shipping address request -->
+    <extension_attributes for="Magento\Quote\Api\Data\AddressInterface">
+        <attribute code="locker_machine" type="string" />
+    </extension_attributes>
+</config>

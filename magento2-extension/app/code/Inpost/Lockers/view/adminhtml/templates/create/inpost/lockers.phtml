@@ -1,0 +1,82 @@
+<?php
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+?>
+
+<?php if ($block->isAvailable()) : ?>
+    <div class="admin__page-section">
+        <div class="admin__page-section-title">
+            <span class="title"><?php echo __('InPost Parcel') ?></span>
+        </div>
+        <div class="admin__page-section-content">
+            <div class="admin__page-section-item">
+                <div class="admin__table-wrapper">
+                    <table class="data-table admin__table-primary" style="width: 50%;">
+                        <thead>
+                        <tr class="headings">
+                            <td><?php echo __('Weight'); ?></td>
+                            <td><?php echo __('Size class') ?></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>
+                                <input type="text" class="input-text admin__control-text" name="parcel_weight" id="parcel_weight"
+                                       style="width: 6rem;" value="<?php echo $block->getTotalWeight() ?>"/>
+                                <?php echo $block->getDefaultWeight(); ?>
+                            </td>
+                            <td>
+                                <select name="size" id="parcel_size">
+                                    <option value="a">A</option>
+                                    <option value="b">B</option>
+                                    <option value="c">C</option>
+                                </select>
+                                <ul class="size-table" style="list-style: none; line-height: 9px; padding-top: 10px;">
+                                    <li>
+                                        <p>Size A: 8 cm x 38 cm x 64 cm</p>
+                                    </li>
+                                    <li>
+                                        <p>Size B: 19 cm x 38 cm x 64 cm</p>
+                                    </li>
+                                    <li>
+                                        <p>Size C: 41 cm x 38 cm x 64 cm</p>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <script type="text/javascript">
+                        require([
+                            "jquery",
+                            "mage/mage",
+                            "prototype"
+                        ], function(jQuery){
+                            (function ($) {
+                                $('#parcel_size').val('<?php echo $block->getDefaultSize(); ?>');
+                                var config = JSON.parse('<?php echo $block->getWeightConfig(); ?>');
+                                $('input.qty-item').on('change', function() {
+                                    var weight = 0;
+                                    $('.qty-item').each(function(element) {
+                                        var id = $(this).attr('name');
+                                        id = id.replace(']', '');
+                                        id = id.replace('shipment[items[', '');
+                                        id = id.replace(']', '');
+                                        var qty = $(this).val();
+                                        weight += parseFloat(qty * config[id]);
+                                    });
+                                    $('#parcel_weight').val(weight);
+                                });
+                            })(jQuery);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>

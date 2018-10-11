@@ -1,0 +1,73 @@
+<?php
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+?>
+
+<script>
+    require.config({
+        paths: {
+            googleMaps: '<?php /* @noEscape */ echo $block->getGoogleMapsApiUrl() ?>&',
+            MarkerClusterer: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer'
+        },
+        shim: {
+            googleMaps: {
+                exports: 'google.maps'
+            },
+            MarkerClusterer: {
+                exports: 'MarkerClusterer'
+            }
+        }
+    });
+    window.mapIconPath = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/marker.png') ?>';
+    window.loadIcon = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/inpost.png') ?>';
+    window.centerIcon = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/center.png') ?>';
+    window.showMoreIcon = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/arrow_yellow.png') ?>';
+    window.defaultCountry = '<?php echo $block->getDefaultCountry() ?>';
+    window.inpostDescription = '<?php echo $block->getInpostDescription() ?>';
+</script>
+<div id="inpost-overlay" class="inpost-overlay"></div>
+<div id="inpost-popup" class="inpost-popup">
+    <div class="lockers-close">
+        <img src="<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/close.png') ?>">
+    </div>
+    <div class="inpost-content text-center">
+
+        <p class="top-container">
+            <img class="block-center" src="<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/inpost-popup-logo.png') ?>">
+            <iframe class="inpost-video" src="https://www.youtube.com/embed/FlHeMLj_A7Q">
+            </iframe>
+        </p>
+        <p><b>Collect your order at a time and place that suits you in just a few seconds!</b></p>
+        <p>Choose from 1,300 lockers nationwide, which all are accessible 24 hours a day, 7 days a week.
+            <br>That means no more waiting in or depot queues.</p>
+        <p>InPost will notify you via text and email you when your order is ready to collect. <br> You will then have 72 hours to collect your parcel.</p>
+        <a class="inpost-link button" href="#">Watch Video <i class="fa fa-angle-right" aria-hidden="true"></i></a>
+    </div>
+</div>
+<script type="text/javascript">
+    require(['jquery', 'jquery/ui'], function($){
+        $('.lockers-close').on('click', function() {
+            $('#inpost-overlay').hide();
+            $('#inpost-popup').hide();
+            $('iframe').attr('src', $('iframe').attr('src'));
+        });
+
+        $('#inpost-overlay').on('click', function () {
+            $('#inpost-overlay').hide();
+            $('#inpost-popup').hide();
+            $('iframe').attr('src', $('iframe').attr('src'));
+        });
+
+        $('.inpost-popup .inpost-link.button').on('click', function() {
+            $('.inpost-popup .top-container .block-center').hide();
+            $(this).hide();
+            $('.inpost-popup .top-container .inpost-video').show();
+        });
+    });
+
+</script>

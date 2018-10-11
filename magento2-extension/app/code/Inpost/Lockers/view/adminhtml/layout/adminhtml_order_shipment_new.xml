@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="form">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Inpost_Lockers::create/form.phtml</argument>
+            </action>
+        </referenceBlock>
+        <referenceBlock name="order_items">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Inpost_Lockers::create/items.phtml</argument>
+            </action>
+            <block class="Inpost\Lockers\Block\Adminhtml\Shipping\Parcel" name="inpost_lockers"
+                   template="create/inpost/lockers.phtml"/>
+        </referenceBlock>
+    </body>
+</page>

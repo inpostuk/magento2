@@ -1,0 +1,83 @@
+<!--
+/**
+ * (c) InPost UK Ltd <it_support@inpost.co.uk>
+ * This source file is subject to the license that is bundled
+ * with this source code in the file LICENSE.
+ *
+ * Built by NMedia Systems Ltd, <info@nmediasystems.com>
+ */
+-->
+
+<div id="lockers" class="lockers" style="display: none;">
+    <div class="lockers-content">
+        <div class="top">
+            <div class="middle">
+                <input class="lockers-postcode left" id="lockers-postcode" name="lockers-postcode"
+                       data-bind="attr: {value: getPostCode}, event: {keypress: findPostCodeKeypress}" placeholder="Type in your postcode or town...">
+                <button class="find-postcode" click="findPostcode">Find</button>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="bottom">
+            <div class="lockers-content">
+                <button id="reload-left-lockers-block" style="display: none" click="reloadPopup()"></button>
+                <div id="lockers-left" class="left">
+                    <h2><span id="points-count" text="lockersCount()"></span> lockers found nearby</h2>
+                    <div class="points">
+                        <!-- ko foreach: { data: lockers(), as: 'item'} -->
+                        <div class="point" data-bind="attr: {'data-id': item.id}">
+                            <div class="point-content" data-bind="css: {
+                                'active' :  $parent.activeItem() == item.id
+                             }">
+                                <div class="title">
+                                    <p class="left"><span data-bind="text: $index() + 1"></span> - <span
+                                            data-bind="text: item.building_no"></span></p>
+                                    <p class="right"><span class="distance" data-bind="text: item.distance"></span><span
+                                            class="distance"> miles</span></p>
+                                </div>
+                                <div class="address">
+                                    <p><span data-bind="text: item.street"></span>,</p>
+                                    <p><span data-bind="text: item.city"></span>, <span
+                                            data-bind="text: item.post_code"></span></p>
+                                </div>
+                                <p class="opening-hours" click="$parent.toggleAccessible(item.id)">Accessible 24/7</p>
+                                <div class="hours active">
+                                    <div>
+                                        <p data-bind="text: item.location_description"></p>
+                                        <img class="locker-image"
+                                             data-bind="attr: {'src': 'https://geowidget.easypack24.net/uploads/uk/images/' + item.id + '.jpg'}" onerror="this.style.display='none'">
+                                    </div>
+                                </div>
+                            </div>
+                            <button name="select" class="select" data-bind="click: $parent.setLocker">Select</button>
+                        </div>
+                        <!-- /ko -->
+                        <!-- ko if: isMobile -->
+                        <div class="point show-more-mobile" data-bind="visible: showMoreAllowed, click: showMore">
+                            <div class="point-content">
+                                <div class="round">
+                                    <img data-bind="attr: {'src': getMobileShowMoreImage()}">
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /ko -->
+                    </div>
+                    <!-- ko ifnot: isMobile -->
+                    <button id="showmore" data-bind="visible: showMoreAllowed, click: showMore">Show more</button>
+                    <!-- /ko -->
+                </div>
+                <div class="right">
+                    <div id="map"></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="load-overlay" id="load-overlay">
+        <div class="overlay"></div>
+        <div class="overlay-logo-container">
+            <img class="overlay-logo" data-bind="attr: {'src': getLoaderImage()}"/>
+        </div>
+    </div>
+</div>

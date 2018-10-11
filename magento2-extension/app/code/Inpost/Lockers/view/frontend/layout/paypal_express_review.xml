@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column"
+      xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="Inpost_Lockers::css/lockers.css"/>
+    </head>
+    <body>
+        <referenceContainer name="after.body.start">
+            <block class="Inpost\Lockers\Block\MapsJs" name="inpost.maps.js" template="Inpost_Lockers::maps_js.phtml"/>
+            <block class="Inpost\Lockers\Block\Paypal\Express\Quote" name="inpost.quote.initialization" template="Inpost_Lockers::express/quote.phtml"/>
+        </referenceContainer>
+        <referenceBlock name="paypal.express.review">
+            <action method="setTemplate">
+                <argument name="template" xsi:type="string">Inpost_Lockers::express/review.phtml</argument>
+            </action>
+        </referenceBlock>
+    </body>
+</page>
