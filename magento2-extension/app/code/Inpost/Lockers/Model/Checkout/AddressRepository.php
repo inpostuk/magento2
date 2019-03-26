@@ -24,12 +24,12 @@ class AddressRepository implements AddressRepositoryInterface
     /**
      * @var ResourceAddress
      */
-    protected $resource;
+    private $resource;
 
     /**
      * @var AddressFactory
      */
-    protected $addressFactory;
+    private $addressFactory;
 
     /**
      * AddressRepository constructor

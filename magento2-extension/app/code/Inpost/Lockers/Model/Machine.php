@@ -26,8 +26,8 @@ class Machine extends \Magento\Framework\Model\AbstractModel implements
         return [self::CACHE_TAG . '_' . $this->getId()];
     }
 
-    public function updateAttributes($attributes) {
-        $this->setData($attributes);
+    public function updateAttributes()
+    {
         $this->save();
     }
 }

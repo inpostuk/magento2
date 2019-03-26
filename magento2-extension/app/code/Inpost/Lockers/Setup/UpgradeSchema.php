@@ -51,8 +51,6 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         'comment' =>'Locker ID'
                     ]
                 );
-
-            $setup->endSetup();
         }
         if (version_compare($context->getVersion(), '0.0.3') < 0) {
             $table = $setup->getConnection()
@@ -115,8 +113,6 @@ class UpgradeSchema implements UpgradeSchemaInterface
                         'comment' =>'Parcel Data'
                     ]
                 );
-
-            $setup->endSetup();
         }
         if (version_compare($context->getVersion(), '0.0.5') < 0) {
             $data = [];
@@ -177,5 +173,20 @@ class UpgradeSchema implements UpgradeSchemaInterface
                 $data
             );
         }
+
+        if (version_compare($context->getVersion(), '0.0.6') < 0) {
+            $setup->getConnection()
+                ->addColumn(
+                    $setup->getTable($quote),
+                    'inpost_phone',
+                    [
+                        'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+                        'length' => 255,
+                        'comment' =>'InPost Custom Phone'
+                    ]
+                );
+        }
+
+        $setup->endSetup();
     }
 }

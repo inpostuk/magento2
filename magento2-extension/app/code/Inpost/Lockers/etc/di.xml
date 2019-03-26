@@ -14,7 +14,6 @@
         <arguments>
             <argument name="objectManager" xsi:type="object">Magento\Framework\ObjectManagerInterface</argument>
             <argument name="helper" xsi:type="object">Inpost\Lockers\Helper\Lockers</argument>
-            <argument name="client" xsi:type="object">Inpost\Lockers\Adapter\Client</argument>
         </arguments>
     </type>
     <type name="Inpost\Lockers\Helper\Lockers">
@@ -38,11 +37,6 @@
             <argument name="machineCollection" xsi:type="object">Inpost\Lockers\Model\ResourceModel\Machine\DataCollection</argument>
         </arguments>
     </type>
-    <type name="Inpost\Lockers\Adapter\Client">
-        <arguments>
-            <argument name="parcel" xsi:type="object">Inpost\Lockers\Model\Parcel</argument>
-        </arguments>
-    </type>
 
     <type name="Inpost\Lockers\Logger\Handler">
         <arguments>
@@ -60,4 +54,12 @@
 
     <preference for="Magento\Sales\Block\Adminhtml\Order\AbstractOrder" type="Inpost\Lockers\Block\Adminhtml\Order\AbstractOrder"/>
     <preference for="Magento\Shipping\Block\Adminhtml\View\Form" type="Inpost\Lockers\Block\Adminhtml\Shipping\View\Form"/>
+
+    <preference for="Magento\Framework\Filesystem\DriverInterface" type="\Magento\Framework\Filesystem\Driver\File"/>
+
+    <type name="Inpost_Api_Client">
+        <arguments>
+            <argument name="token" xsi:type="string">api_key</argument>
+        </arguments>
+    </type>
 </config>

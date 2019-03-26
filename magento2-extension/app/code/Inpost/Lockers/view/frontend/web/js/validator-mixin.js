@@ -20,7 +20,7 @@ define([
             'phoneINPOST',
             function (value, params, additionalParams) {
                 if (quote.shippingMethod()) {
-                    if (quote.shippingMethod().carrier_code == 'inpost') {
+                    if (quote.shippingMethod().carrier_code == 'inpost' && !$('.shipping-address-item.selected-item').length) {
                         return value.match(/^((((\+|00)?447\s?\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3})|(((\+|00)447\s?\d{2}|\(?07\d{2}\)?)\s?\d{3}\s?\d{4})|(((\+|00)447\s?\d{1}|\(?07\d{1}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/);
                     }
                 }

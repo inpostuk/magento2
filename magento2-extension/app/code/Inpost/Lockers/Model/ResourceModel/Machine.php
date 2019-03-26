@@ -16,7 +16,8 @@ class Machine extends \Magento\Framework\Model\ResourceModel\Db\AbstractDb
         $this->_init('inpost_machine', 'machine_id');
     }
 
-    public function removeMachineById($machine) {
+    public function removeMachineById($machine)
+    {
         if ($machine->getId()) {
             $this->delete($machine);
         }

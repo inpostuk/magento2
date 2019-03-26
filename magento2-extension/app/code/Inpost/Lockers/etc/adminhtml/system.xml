@@ -25,7 +25,7 @@
                 <field id="title" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Title</label>
                 </field>
-                <field id="method_name" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="name" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Shipping Method Name</label>
                 </field>
                 <field id="description" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
@@ -41,7 +41,11 @@
                     <label>API Endpoint</label>
                 </field>
 
-                <field id="sallowspecific" translate="label" type="select" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
+                <field id="max_weight" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Max weight in grams</label>
+                </field>
+
+                <field id="sallowspecific" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="0" canRestore="1">
                     <label>Ship to Applicable Countries</label>
                     <frontend_class>shipping-applicable-country</frontend_class>
                     <source_model>Magento\Shipping\Model\Config\Source\Allspecificcountries</source_model>
@@ -61,29 +65,29 @@
                     <source_model>Inpost\Lockers\Model\Config\Source\Labels</source_model>
                     <backend_model>Inpost\Lockers\Model\System\Config\Backend\Links</backend_model>
                 </field>
-                <field id="weight" translate="label" type="select" sortOrder="12" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="weight" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Weight</label>
                     <source_model>Inpost\Lockers\Model\Config\Source\Weight</source_model>
                     <backend_model>Inpost\Lockers\Model\System\Config\Backend\Links</backend_model>
                 </field>
-                <field id="size_class" translate="label" type="select" sortOrder="13" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="size_class" translate="label" type="select" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Size</label>
                     <source_model>Inpost\Lockers\Model\Config\Source\Size</source_model>
                     <backend_model>Inpost\Lockers\Model\System\Config\Backend\Links</backend_model>
                 </field>
 
 
-                <field id="sort_order" translate="label" type="text" sortOrder="14" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="sort_order" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Sort Order</label>
                 </field>
-                <field id="api_key" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="api_key" translate="label" type="text" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Google Maps API Key</label>
                 </field>
-                <field id="map_radius" translate="label" type="text" sortOrder="16" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="map_radius" translate="label" type="text" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Default Map API Radius</label>
                 </field>
 
-                <field id="debug" translate="label" type="select" sortOrder="17" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                <field id="debug" translate="label" type="select" sortOrder="18" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
                     <label>Debug</label>
                     <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                     <backend_model>Inpost\Lockers\Model\System\Config\Backend\Links</backend_model>

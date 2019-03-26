@@ -36,6 +36,30 @@ define([
         validateShippingInformation: function () {
             var shippingAddress = quote.shippingAddress(),
                 lockerAddress = this.getChild('inpost-shipping-method').selectedLockerAddress();
+
+            if (this.getChild('inpost-shipping-method').showPhoneField()) {
+                var phone = document.getElementById('inpost-phone').value;
+                if (!phone) {
+                    this.showError();
+                    return false;
+                }
+                var patt = new RegExp(/^((((\+|00)?447\s?\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3})|(((\+|00)447\s?\d{2}|\(?07\d{2}\)?)\s?\d{3}\s?\d{4})|(((\+|00)447\s?\d{1}|\(?07\d{1}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/);
+                var res = patt.test(phone);
+                if (!res) {
+                    this.showError();
+                    return false;
+                }
+
+                quote.shippingAddress().telephone = phone;
+                $.ajax({
+                    url: window.inpostPhoneUpdateUrl,
+                    type: 'post',
+                    data: {
+                        'phone': phone,
+                        'quote_id': quote.getQuoteId()
+                    }
+                });
+            }
             this.lockerErrors('');
             var hasLockerMachine = shippingAddress.hasOwnProperty('extensionAttributes') &&
                 typeof shippingAddress.extensionAttributes === 'object' &&
@@ -72,6 +96,10 @@ define([
                 $('.choose-locker').trigger('click');
             }
             return this._super();
+        },
+
+        showError: function() {
+            $('#advice-validate-uk-phone-locker-phone').show(0).delay(3600).hide(0);
         }
     };
 

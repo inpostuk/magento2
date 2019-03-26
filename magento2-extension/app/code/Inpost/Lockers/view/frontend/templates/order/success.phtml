@@ -8,6 +8,6 @@
  */
 ?>
 
-<?php if ($block->isInpost()): ?>
-    <p><?php echo __('Once your order is ready to be collected, we\'ll also update you with text and email notification.') ?></p>
+<?php if ($block->isInpost()) : ?>
+    <p><?php /* @noEscape */ echo __('Once your order is ready to be collected, we\'ll also update you with text and email notification.') ?></p>
 <?php endif; ?>

@@ -17,9 +17,8 @@
                 <active>0</active>
                 <price>2.99</price>
                 <parcel_create>1</parcel_create>
-                <name>Fixed</name>
+                <name>InPost Next Day Locker Collection</name>
                 <title>InPost 24/7 Lockers</title>
-                <method_name>InPost Next Day Locker Collection</method_name>
                 <endpoint>https://api-uk.easypack24.net/v4/</endpoint>
                 <sallowspecific>0</sallowspecific>
                 <model>Inpost\Lockers\Model\Carrier\Inpost</model>
@@ -30,6 +29,7 @@
                 <size_class>a</size_class>
                 <sort_order>0</sort_order>
                 <debug>0</debug>
+                <max_weight>20000</max_weight>
                 <description>Collection next day if ordered before 6pm, Sunday to Friday only.</description>
             </inpost>
         </carriers>

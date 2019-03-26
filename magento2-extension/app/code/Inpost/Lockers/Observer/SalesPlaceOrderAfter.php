@@ -15,48 +15,21 @@ use Inpost\Lockers\Api\Checkout\AddressRepositoryInterface;
 
 class SalesPlaceOrderAfter implements ObserverInterface
 {
-    private $adapter;
-    private $request;
     private $addressRepository;
     private $quoteFactory;
-    private $machineResource;
-    private $machine;
     private $helper;
-    private $objectManager;
-    private $trackFactory;
-    private $filesystem;
-    private $invoiceService;
-    private $transaction;
     private $collection;
 
     public function __construct(
-        \Inpost\Lockers\Adapter\Client $client,
-        \Magento\Framework\App\RequestInterface $request,
         AddressRepositoryInterface $addressRepository,
         \Magento\Quote\Model\QuoteFactory $quoteFactory,
-        \Inpost\Lockers\Model\ResourceModel\Machine $machineResource,
-        \Inpost\Lockers\Model\Machine $machine,
         \Inpost\Lockers\Helper\Lockers $helper,
-        \Magento\Framework\ObjectManagerInterface $objectManager,
-        \Magento\Sales\Model\Order\Shipment\TrackFactory $trackFactory,
-        \Magento\Framework\Filesystem $filesystem,
-        \Magento\Sales\Model\Service\InvoiceService $invoiceService,
-        \Magento\Framework\DB\Transaction $transaction,
         \Inpost\Lockers\Model\ResourceModel\Machine\DataCollection $collection
     ) {
 
-        $this->adapter = $client;
         $this->helper = $helper;
-        $this->filesystem = $filesystem;
-        $this->objectManager = $objectManager;
-        $this->invoiceService = $invoiceService;
-        $this->request = $request;
         $this->addressRepository = $addressRepository;
         $this->quoteFactory = $quoteFactory;
-        $this->machineResource = $machineResource;
-        $this->machine = $machine;
-        $this->trackFactory = $trackFactory;
-        $this->transaction = $transaction;
         $this->collection = $collection;
     }
 
@@ -83,6 +56,11 @@ class SalesPlaceOrderAfter implements ObserverInterface
                     );
                     $shippingAddress->setCity($locker->getCity());
                     $shippingAddress->setCustomerAddressId(null);
+
+                    if ($inpostPhone = $quote->getInpostPhone()) {
+                        $shippingAddress->setTelephone($inpostPhone);
+                    }
+
                     $shippingAddress->setCompany($locker->getBuildingNo());
                     $shippingAddress->save();
                 }

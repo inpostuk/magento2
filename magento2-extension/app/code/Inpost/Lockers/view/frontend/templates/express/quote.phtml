@@ -1,4 +1,4 @@
-<script type="text/javascript">
-    window.checkoutConfig = <?= /* @escapeNotVerified */ $block->getSerializedCheckoutConfig() ?>;
-    window.shippingAddressData = <?= /* @escapeNotVerified */ $block->getSerializedShippingAddressData() ?>
+<script>
+    window.checkoutConfig = <?= /* @noEscape */ $block->getSerializedCheckoutConfig() ?>;
+    window.shippingAddressData = <?= /* @noEscape */ $block->getSerializedShippingAddressData() ?>
 </script>

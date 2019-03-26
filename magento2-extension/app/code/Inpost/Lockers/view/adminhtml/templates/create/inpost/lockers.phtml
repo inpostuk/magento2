@@ -11,7 +11,7 @@
 <?php if ($block->isAvailable()) : ?>
     <div class="admin__page-section">
         <div class="admin__page-section-title">
-            <span class="title"><?php echo __('InPost Parcel') ?></span>
+            <span class="title"><?php /* @noEscape */ echo __('InPost Parcel') ?></span>
         </div>
         <div class="admin__page-section-content">
             <div class="admin__page-section-item">
@@ -19,16 +19,16 @@
                     <table class="data-table admin__table-primary" style="width: 50%;">
                         <thead>
                         <tr class="headings">
-                            <td><?php echo __('Weight'); ?></td>
-                            <td><?php echo __('Size class') ?></td>
+                            <td><?php /* @noEscape */ echo __('Weight'); ?></td>
+                            <td><?php /* @noEscape */ echo __('Size class') ?></td>
                         </tr>
                         </thead>
                         <tbody>
                         <tr>
                             <td>
                                 <input type="text" class="input-text admin__control-text" name="parcel_weight" id="parcel_weight"
-                                       style="width: 6rem;" value="<?php echo $block->getTotalWeight() ?>"/>
-                                <?php echo $block->getDefaultWeight(); ?>
+                                       style="width: 6rem;" value="<?php /* @noEscape */ echo $block->getTotalWeight() ?>"/>
+                                <?php /* @noEscape */ echo $block->getDefaultWeight(); ?>
                             </td>
                             <td>
                                 <select name="size" id="parcel_size">
@@ -51,15 +51,15 @@
                         </tr>
                         </tbody>
                     </table>
-                    <script type="text/javascript">
+                    <script>
                         require([
                             "jquery",
                             "mage/mage",
                             "prototype"
                         ], function(jQuery){
                             (function ($) {
-                                $('#parcel_size').val('<?php echo $block->getDefaultSize(); ?>');
-                                var config = JSON.parse('<?php echo $block->getWeightConfig(); ?>');
+                                $('#parcel_size').val('<?php /* @noEscape */ echo $block->getDefaultSize(); ?>');
+                                var config = JSON.parse('<?php /* @noEscape */ echo $block->getWeightConfig(); ?>');
                                 $('input.qty-item').on('change', function() {
                                     var weight = 0;
                                     $('.qty-item').each(function(element) {

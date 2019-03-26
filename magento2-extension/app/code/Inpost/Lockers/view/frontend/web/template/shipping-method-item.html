@@ -41,6 +41,13 @@
                 </div>
                 <!-- ko if: selectedLockerAddress -->
                     <a href="#" class="choose-locker" click="showLockersMap">Change Locker Location</a>
+                    <!-- ko if: element.getChild('inpost-shipping-method').showPhoneField() -->
+                        <div class="field inpost-phone _requiredF">
+                            <label name="telephone" class="label">Mobile <span class="grey">(InPost will text you when your parcel is ready)</span></label>
+                            <input class="input-text" data-bind="'aria-required': required, 'aria-invalid': error() ? true : 'false'," aria-required="true" type="text" id="inpost-phone" name="telephone" aria-required="true" aria-invalid="false">
+                            <div class="validation-advice" id="advice-validate-uk-phone-locker-phone" style="display: none;">Please provide your mobile phone number in this format 077 1234 5678</div>
+                        </div>
+                    <!-- /ko -->
                 <!-- /ko -->
                 <!-- ko ifnot: selectedLockerAddress -->
                     <a href="#" class="choose-locker" click="showLockersMap">Choose locker</a>

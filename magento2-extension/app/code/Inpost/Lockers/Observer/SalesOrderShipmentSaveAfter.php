@@ -21,8 +21,6 @@ class SalesOrderShipmentSaveAfter implements ObserverInterface
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-    
-
         $this->scopeConfig = $scopeConfig;
     }
 

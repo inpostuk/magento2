@@ -136,13 +136,14 @@ define([
                     });
                     markers.push(marker);
 
+                    var onclick = 'jQuery(".point[data-id=' + locker.id + '] button.select").trigger("click");';
                     var contentString = "<div class='info-window'>" +
                         "<div class='title'>" +
                         "<h5 class='info-window-name'>" + (i + 1) + ' - ' + locker.building_no + "</h5>" +
                         "<p class='right'>" + self.precisionRound(locker.distance, 2) + " miles</p>" +
                         "</div>" +
                         "<div class='info-window-address'><p>" + locker.province + "</p><p>" + locker.city + ", " + locker.post_code + "</p></div>" +
-                        "<button row-id=" + locker.id + " class='button'>Select</button>" +
+                        "<button row-id=" + locker.id + " class='button' onclick='" + onclick + "'>Select</button>" +
                         "</div>";
 
                     /*$('.point[data-id='+ locker.id +'] .select').trigger('click')*/

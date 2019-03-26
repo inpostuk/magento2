@@ -30,9 +30,11 @@ class SalesOrderShipmentSaveBefore implements ObserverInterface
     private $invoiceService;
     private $transaction;
     private $scopeConfig;
+    /** @var Magento\Framework\Filesystem\DriverInterface */
+    private $driver;
+    private $pdfFactory;
 
     public function __construct(
-        \Inpost\Lockers\Adapter\Client $client,
         \Magento\Framework\App\RequestInterface $request,
         AddressRepositoryInterface $addressRepository,
         \Magento\Quote\Model\QuoteFactory $quoteFactory,
@@ -44,9 +46,11 @@ class SalesOrderShipmentSaveBefore implements ObserverInterface
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Magento\Framework\DB\Transaction $transaction,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\Filesystem\DriverInterface $driver,
+        \Zend_PdfFactory $pdfFactory,
+        \Inpost_Api_Client $client
     ) {
-
         $this->adapter = $client;
         $this->helper = $helper;
         $this->filesystem = $filesystem;
@@ -60,6 +64,8 @@ class SalesOrderShipmentSaveBefore implements ObserverInterface
         $this->trackFactory = $trackFactory;
         $this->transaction = $transaction;
         $this->scopeConfig = $scopeConfig;
+        $this->driver = $driver;
+        $this->pdfFactory = $pdfFactory;
     }
 
     public function execute(Observer $observer)
@@ -92,6 +98,8 @@ class SalesOrderShipmentSaveBefore implements ObserverInterface
                     $shippingAddress = $order->getShippingAddress();
                     $machineId = $this->addressRepository->getByQuoteAddressId($quoteAddressId)->getLockerMachine();
                     $this->adapter->setToken($this->helper->getApiToken());
+                    $this->adapter->setMerchantEmail($this->helper->getMerchantEmail());
+                    $this->adapter->setEndpoint($this->helper->getApiEndPoint());
                     $weight = $this->calculateWeight($params['parcel_weight']);
                     $parcel = $this->adapter->createParcel(
                         $shippingAddress->getTelephone(),
@@ -102,35 +110,39 @@ class SalesOrderShipmentSaveBefore implements ObserverInterface
                         $order->getIncrementId(),
                         true
                     );
-                    $order->setData('parcel_data', $parcel);
+                    $order->setData('parcel_data', json_encode($parcel->getData()));
                     $order->save();
-                    $parcel = json_decode($parcel);
                     $data = [
                         'carrier_code' => 'inpost',
                         'title' => 'InPost 24/7 Lockers',
-                        'number' => $parcel->id,
+                        'number' => $parcel->getId(),
                     ];
                     $track = $this->trackFactory->create()->addData($data);
                     $shipment->addTrack($track);
-                    $this->adapter->pay($parcel->id);
-                    $label = $this->adapter->getLabel($parcel->id, $this->helper->getLabelsFormat());
+                    $this->adapter->pay($parcel->getId());
+                    $label = $this->adapter->getOutboundLabel($parcel->getId(), $this->helper->getLabelsFormat());
                     $labelPath = sprintf(
                         '%s%s_%s.%s',
                         $this->getLabelPath(),
                         $order->getIncrementId(),
-                        $parcel->id,
+                        $parcel->getId(),
                         $this->helper->getLabelsFormat()
                     );
-                    file_put_contents($labelPath, $label);
-                    $outputPdf = new \Zend_Pdf($labelPath, null, true);
+                    $this->driver->filePutContents($labelPath, $label);
+                    $outputPdf = $this->pdfFactory->create(
+                        [
+                            'source' => $labelPath,
+                            'revision' => null,
+                            'load' => true
+                        ]
+                    );
                     $shipment->setShippingLabel($outputPdf->render());
                 }
             }
         }
-        return;
     }
 
-    protected function calculateWeight($weight)
+    private function calculateWeight($weight)
     {
         $metric = $this->helper->getMetric();
         switch ($metric) {
@@ -151,20 +163,20 @@ class SalesOrderShipmentSaveBefore implements ObserverInterface
         return $finalWeight;
     }
 
-    protected function getLabelPath()
+    private function getLabelPath()
     {
         $ds = DIRECTORY_SEPARATOR;
-        if (!file_exists(BP . $ds . 'pub')) {
-            mkdir(BP . $ds . 'pub');
+        if (!$this->driver->isExists(BP . $ds . 'pub')) {
+            $this->driver->createDirectory(BP . $ds . 'pub');
         }
-        if (!file_exists(BP . $ds . 'pub' . $ds . 'media')) {
-            mkdir(BP . $ds . 'pub' . $ds . 'media');
+        if (!$this->driver->isExists(BP . $ds . 'pub' . $ds . 'media')) {
+            $this->driver->createDirectory(BP . $ds . 'pub' . $ds . 'media');
         }
-        if (!file_exists(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost')) {
-            mkdir(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost');
+        if (!$this->driver->isExists(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost')) {
+            $this->driver->createDirectory(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost');
         }
-        if (!file_exists(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost' . $ds . 'shipping-labels')) {
-            mkdir(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost' . $ds . 'shipping-labels');
+        if (!$this->driver->isExists(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost' . $ds . 'shipping-labels')) {
+            $this->driver->createDirectory(BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost' . $ds . 'shipping-labels');
         }
         return BP . $ds . 'pub' . $ds . 'media' . $ds . 'inpost' . $ds . 'shipping-labels' . $ds;
     }

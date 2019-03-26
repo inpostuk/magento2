@@ -14,8 +14,8 @@ class InstallSchema implements \Magento\Framework\Setup\InstallSchemaInterface
     private $cron;
     public function __construct(
         \Inpost\Lockers\Cron\Machine $cron
-    )
-    {
+    ) {
+    
         $this->cron = $cron;
     }
 

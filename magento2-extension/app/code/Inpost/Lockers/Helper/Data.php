@@ -24,6 +24,7 @@ class Data extends AbstractHelper
     const XML_PATH_MACHINE_SEARCH_RADIUS = 'carriers/inpost/map_radius';
     const XML_PATH_API_ENDPOINT_URL = 'carriers/inpost/endpoint';
     const XML_PATH_DESCRIPTION = 'carriers/inpost/description';
+    const XML_PATH_MAX_WEIGHT = 'carriers/inpost/max_weight';
 
     /**
      * @return int
@@ -71,5 +72,10 @@ class Data extends AbstractHelper
     public function getDescription()
     {
         return $this->scopeConfig->getValue(static::XML_PATH_DESCRIPTION);
+    }
+
+    public function getMaxWeight()
+    {
+        return trim($this->scopeConfig->getValue(self::XML_PATH_MAX_WEIGHT));
     }
 }

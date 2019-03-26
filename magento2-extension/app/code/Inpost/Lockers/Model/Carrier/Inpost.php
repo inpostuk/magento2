@@ -18,8 +18,9 @@ class Inpost extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
 
     const CODE = 'inpost';
 
+    // @codingStandardsIgnoreStart
     protected $_code = 'inpost';
-
+    // @codingStandardsIgnoreEnd
 
     /**
      * Available carrier method
@@ -27,9 +28,16 @@ class Inpost extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
      * @var string
      */
     const METHOD = 'inpost';
+    /** @var \Magento\Framework\App\ResponseFactory */
     private $responseFactory;
+    /** @var \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory */
     private $rateMethodFactory;
+    /** @var \Magento\Shipping\Model\Rate\ResultFactory */
     private $rateResultFactory;
+    /** @var \Inpost\Lockers\Helper\Data */
+    private $helper;
+    /** @var \Inpost\Lockers\Helper\Lockers */
+    private $configHelper;
 
     /**
      * Inpost constructor.
@@ -48,9 +56,12 @@ class Inpost extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         \Magento\Framework\App\ResponseFactory $responseFactory,
+        \Inpost\Lockers\Helper\Data $helper,
+        \Inpost\Lockers\Helper\Lockers $configHelper,
         array $data = []
     ) {
-    
+        $this->configHelper = $configHelper;
+        $this->helper = $helper;
         $this->rateResultFactory = $rateResultFactory;
         $this->responseFactory = $responseFactory;
         $this->rateMethodFactory = $rateMethodFactory;
@@ -71,31 +82,51 @@ class Inpost extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
      */
     public function collectRates(RateRequest $request)
     {
-        if (!$this->getConfigFlag('active')) {
-            return false;
-        }
-
-        /** @var \Magento\Shipping\Model\Rate\Result $result */
+        /** @var \Magento\Shipping\Model\Rate\Result $res
+         * \`ult
+         */
         $result = $this->rateResultFactory->create();
 
-        /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
-        $method = $this->rateMethodFactory->create();
+        if ((!$this->configHelper->createLabelInMagento() && $this->configHelper->getGoogleMapsApiKey()) ||
+            ($this->configHelper->createLabelInMagento() &&
+                $this->configHelper->getGoogleMapsApiKey() &&
+                $this->configHelper->getApiToken() &&
+                $this->configHelper->getMerchantEmail())
+        ) {
+            if (!$this->getConfigFlag('active')) {
+                return false;
+            }
 
-        $method->setCarrier(self::CODE);
-        $method->setCarrierTitle($this->getConfigData('title'));
+            $maxWeight = $this->helper->getMaxWeight();
+            $totalWeight = 0;
+            foreach ($request->getAllItems() as $item) {
+                if (!$item->getParentItemId()) {
+                    $totalWeight += $item->getWeight();
+                }
+            }
 
-        $method->setMethod(self::CODE);
-        $method->setMethodTitle($this->getConfigData('name'));
+            if ($totalWeight <= $maxWeight) {
 
-        $amount = $this->getConfigData('price');
-        if ($request->getFreeShipping()) {
-            $amount = 0;
+                /** @var \Magento\Quote\Model\Quote\Address\RateResult\Method $method */
+                $method = $this->rateMethodFactory->create();
+
+                $method->setCarrier(self::CODE);
+                $method->setCarrierTitle($this->getConfigData('title'));
+
+                $method->setMethod(self::CODE);
+                $method->setMethodTitle($this->getConfigData('name'));
+
+                $amount = $this->getConfigData('price');
+                if ($request->getFreeShipping()) {
+                    $amount = 0;
+                }
+
+                $method->setPrice($amount);
+                $method->setCost($amount);
+
+                $result->append($method);
+            }
         }
-
-        $method->setPrice($amount);
-        $method->setCost($amount);
-
-        $result->append($method);
 
         return $result;
     }

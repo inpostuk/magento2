@@ -141,6 +141,19 @@
     font-size: 12px;
 }
 
+.lockers .point .opening-hours:after {
+    content: "";
+    display: block;
+    float: right;
+    width: 16px;
+    height: 18px;
+    background-image: url(../images/inpost/info.png);
+    overflow: visible;
+    color: black;
+    margin: 1px 10px 0 0;
+    background-size: cover;
+}
+
 .lockers .point .hours {
     display: none;
 }
@@ -467,4 +480,21 @@ tr.locker td {
 
 .paypal-express-review .inpost-button-container {
     padding-top: 10px;
+}
+
+.inpost-phone {
+    padding-top: 15px;
+}
+
+#advice-validate-uk-phone-locker-phone {
+    margin: 5px 0 0;
+    color: #df280a;
+    font-size: 13px;
+}
+
+label span.grey {
+    font-family: "Helvetica Neue", Verdana, Arial, sans-serif;
+    color: #aaa;
+    font-size: 12px;
+    font-weight: normal;
 }

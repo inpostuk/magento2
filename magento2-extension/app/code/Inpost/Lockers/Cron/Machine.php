@@ -11,72 +11,78 @@ namespace Inpost\Lockers\Cron;
 
 class Machine
 {
-    /** @var \Magento\Framework\App\ObjectManager */
-    public $objectManager;
-
     /** @var \Inpost\Lockers\Helper\Lockers */
     public $helper;
 
-    /** @var \Inpost\Lockers\Adapter\Client */
+    /** @var \Inpost_Api_Client  */
     private $client;
 
     /** @var \Inpost\Lockers\Model\ResourceModel\Machine\DataCollection */
     private $dataCollection;
-    /** @var \Inpost\Lockers\Model\ResourceModel\Machine  */
+    /** @var \Inpost\Lockers\Model\ResourceModel\Machine */
     private $resource;
+    /** @var \Inpost\Lockers\Model\MachineFactory */
+    private $machineFactory;
+
+    private $apiClient;
+
+    private $lockers = [];
 
     public function __construct(
-        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Inpost\Lockers\Helper\Lockers $helper,
-        \Inpost\Lockers\Adapter\Client $client,
         \Inpost\Lockers\Model\ResourceModel\Machine\DataCollection $dataCollection,
-        \Inpost\Lockers\Model\ResourceModel\Machine $resource
-    )
-    {
-        $this->objectManager = $objectManager;
+        \Inpost\Lockers\Model\ResourceModel\Machine $resource,
+        \Inpost\Lockers\Model\MachineFactory $machineFactory,
+        \Inpost_Api_Client $apiClient
+    ) {
+        $this->machineFactory = $machineFactory;
         $this->helper = $helper;
-        $this->client = $client;
+        $this->client = $apiClient;
         $this->dataCollection = $dataCollection;
         $this->resource = $resource;
     }
 
     public function execute()
     {
+        foreach ($this->dataCollection->getItems() as $locker) {
+            $this->lockers[$locker->getData('id')] = [
+                'locker' => $locker,
+                'is_in_inpost' => false
+            ];
+        }
+
         $this->client->setToken($this->helper->getApiToken());
         $machines = $this->client->getMachinesList();
 
         foreach ($machines as $machine) {
-            if ($machine->getData('status') == 'Operating' && $machine->getData('id')) {
-                $model = $this->dataCollection
-                    ->clear()
-                    ->addFieldToSelect('*')
-                    ->addFieldToFilter('id', $machine['id'])
-                    ->setPageSize(1)
-                    ->setCurPage(1)
-                    ->getLastItem();
-                $attributesForUpdate = array();
-                if ($model->getId()) {
+            if (array_key_exists($machine->getData('id'), $this->lockers)) {
+                $this->lockers[$machine->getData('id')]['is_in_inpost'] = true;
+                $locker = $this->lockers[$machine->getData('id')]['locker'];
+                if ($machine->getData('status') == 'Operating') {
+                    $changedFlag = false;
                     foreach ($machine->getData() as $key => $value) {
-                        if ($model->getData('key') !== $value) {
-                            $attributesForUpdate[$key] = $value;
+                        if ($value !== $locker->getData($key)) {
+                            $changedFlag = true;
+                            $locker->setData($key, $value);
                         }
                     }
+                    if ($changedFlag) {
+                        $locker->updateAttributes();
+                    }
                 } else {
-                    $attributesForUpdate = $machine->getData();
+                    $this->resource->removeMachineById($locker);
                 }
-
-                $model->updateAttributes($attributesForUpdate);
             } else {
-                $model = $this->dataCollection
-                    ->clear()
-                    ->addFieldToSelect('*')
-                    ->addFieldToFilter('id', $machine['id'])
-                    ->setPageSize(1)
-                    ->setCurPage(1)
-                    ->getLastItem();
-                if ($model->getId()) {
-                    $this->resource->removeMachineById($model);
-                }
+                /** @var \Inpost\Lockers\Model\Machine $newMachine */
+                $newMachine = $this->machineFactory->create();
+                $newMachine->setData($machine->getData());
+                $newMachine->updateAttributes();
+            }
+        }
+
+        foreach ($this->lockers as $locker) {
+            if (!$locker['is_in_inpost']) {
+                $this->resource->removeMachineById($locker['locker']);
             }
         }
     }

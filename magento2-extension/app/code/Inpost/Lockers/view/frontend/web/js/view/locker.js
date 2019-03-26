@@ -45,6 +45,7 @@ define([
         getPostCode: ko.observable(''),
         findOutShow: ko.observable(false),
         defaultPostCode: ko.observable('London'),
+        showPhoneField: ko.observable(false),
 
         /**
          * @return {exports}
@@ -75,8 +76,8 @@ define([
         },
 
         showFindOut: function () {
-            document.getElementById('inpost-overlay').style.display = 'block'
-            document.getElementById('inpost-popup').style.display = 'block'
+            document.getElementById('inpost-overlay').style.display = 'block';
+            document.getElementById('inpost-popup').style.display = 'block';
         },
 
         resetSelectedLocker: function () {
@@ -165,7 +166,13 @@ define([
         showLockerPopUp: function (init, lockers) {
             window.initLocation = init;
             this.isLockerPopUpVisible(true);
+            this.showPhoneField(false);
             $('#reload-left-lockers-block').trigger('click');
+            if ($('.shipping-address-item.selected-item').length) {
+                if (!this.validatePhone(quote.shippingAddress().telephone)) {
+                    this.showPhoneField(true);
+                }
+            }
             fullScreenLoader.stopLoader();
         },
 
@@ -206,7 +213,6 @@ define([
                     var postcode = address.postcode;
                     if (!postcode) {
                         postcode = self.defaultPostCode();
-                        flagUsedDefaultPostcode = true;
                     }
                 } else {
                     var postcode = loadWithPostcode;
@@ -234,7 +240,18 @@ define([
                 storageData = window.localStorage.getItem(geoRequestData.join(', '));
                 window.localStorage.setItem('geoRequestData', geoRequestData.join(', '));
 
-                if (storageData) {
+                var parsed = JSON.parse(storageData);
+                var dateValid = false;
+                if (parsed && parsed.time) {
+                    var now = new Date();
+                    var time = new Date();
+                    time.setTime(parsed.time + (60*60*1000));
+                    if (time.getTime() > now.getTime()) {
+                        dateValid = true;
+                    }
+                }
+
+                if (storageData && dateValid) {
                     storageData = JSON.parse(storageData);
 
                     location = storageData.location;
@@ -287,9 +304,11 @@ define([
                 function (response) {
                     fullScreenLoader.stopLoader();
                     window.localStorage.setItem('geoRequestData', geoRequestData.join(', '));
+                    var time = new Date();
                     window.localStorage.setItem(geoRequestData.join(', '), JSON.stringify({
                         location: locationCenter,
-                        response: response
+                        response: response,
+                        time: time.getTime()
                     }));
 
                     self.showLockerPopUp(location, response);
@@ -301,6 +320,11 @@ define([
                     console.log('Error', response);
                 }
             );
+        },
+
+        validatePhone: function(phone) {
+            var patt = new RegExp(/^((((\+|00)?447\s?\d{3}|\(?07\d{3}\)?)\s?\d{3}\s?\d{3})|(((\+|00)447\s?\d{2}|\(?07\d{2}\)?)\s?\d{3}\s?\d{4})|(((\+|00)447\s?\d{1}|\(?07\d{1}\)?)\s?\d{4}\s?\d{4}))(\s?\#(\d{4}|\d{3}))?$/);
+            return patt.test(phone);
         }
     });
 });

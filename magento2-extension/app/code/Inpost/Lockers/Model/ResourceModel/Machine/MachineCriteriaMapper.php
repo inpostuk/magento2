@@ -21,6 +21,7 @@ class MachineCriteriaMapper extends GenericMapper
     const EARTH_RADIUS  = 3959;
     const KM_PER_DEGREE = 69.407;
 
+    // @codingStandardsIgnoreStart
     /**
      * Standard query builder initialization
      */
@@ -84,4 +85,5 @@ class MachineCriteriaMapper extends GenericMapper
                 ->order('distance');
         }
     }
+    // @codingStandardsIgnoreEnd
 }

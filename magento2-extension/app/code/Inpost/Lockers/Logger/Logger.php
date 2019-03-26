@@ -11,8 +11,10 @@ namespace Inpost\Lockers\Logger;
 
 class Logger extends \Monolog\Logger
 {
+    // @codingStandardsIgnoreStart
     public function __construct($name, $handlers = [], $processors = [])
     {
         parent::__construct($name, $handlers, $processors);
     }
+    // @codingStandardsIgnoreEnd
 }

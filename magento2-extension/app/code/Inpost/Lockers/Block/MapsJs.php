@@ -14,10 +14,13 @@ use Inpost\Lockers\Helper\Data;
 
 class MapsJs extends Template
 {
+
     /**
      * @var Data
      */
     private $helper;
+    /** @var \Magento\Store\Model\StoreManagerInterface  */
+    private $storeManager;
 
     /**
      * Constructor
@@ -26,8 +29,13 @@ class MapsJs extends Template
      * @param Data $helper
      * @param array $data
      */
-    public function __construct(Template\Context $context, Data $helper, array $data = [])
-    {
+    public function __construct(
+        Template\Context $context,
+        Data $helper,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        array $data = []
+    ) {
+        $this->storeManager = $storeManager;
         $this->helper = $helper;
         parent::__construct($context, $data);
     }
@@ -51,5 +59,10 @@ class MapsJs extends Template
     public function getInpostDescription()
     {
         return $this->helper->getDescription();
+    }
+
+    public function getPhoneUpdateUrl()
+    {
+        return $this->storeManager->getStore()->getUrl('locker/quote/setphone');
     }
 }

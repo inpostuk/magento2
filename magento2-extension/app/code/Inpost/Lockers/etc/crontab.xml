@@ -12,7 +12,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
     <group id="default">
         <job name="inpost_lockers_machines" instance="Inpost\Lockers\Cron\Machine" method="execute">
-            <schedule>15 3 * * *</schedule>
+            <schedule>15 */4 * * *</schedule>
         </job>
         <job name="inpost_lockers_update_order_statuses" instance="Inpost\Lockers\Cron\UpdateOrders" method="execute">
              

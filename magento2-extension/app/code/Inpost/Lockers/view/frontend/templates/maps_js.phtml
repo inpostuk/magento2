@@ -23,22 +23,23 @@
             }
         }
     });
-    window.mapIconPath = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/marker.png') ?>';
-    window.loadIcon = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/inpost.png') ?>';
-    window.centerIcon = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/center.png') ?>';
-    window.showMoreIcon = '<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/arrow_yellow.png') ?>';
-    window.defaultCountry = '<?php echo $block->getDefaultCountry() ?>';
-    window.inpostDescription = '<?php echo $block->getInpostDescription() ?>';
+    window.mapIconPath = '<?php /* @noEscape */ echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/marker.png') ?>';
+    window.loadIcon = '<?php /* @noEscape */ echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/inpost.png') ?>';
+    window.centerIcon = '<?php /* @noEscape */ echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/center.png') ?>';
+    window.showMoreIcon = '<?php  /* @noEscape */ echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/arrow_yellow.png') ?>';
+    window.defaultCountry = '<?php /* @noEscape */ echo $block->getDefaultCountry() ?>';
+    window.inpostDescription = '<?php /* @noEscape */ echo $block->getInpostDescription() ?>';
+    window.inpostPhoneUpdateUrl = '<?php /* @noEscape */ echo $block->getPhoneUpdateUrl() ?>';
 </script>
 <div id="inpost-overlay" class="inpost-overlay"></div>
 <div id="inpost-popup" class="inpost-popup">
     <div class="lockers-close">
-        <img src="<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/close.png') ?>">
+        <img src="<?php /* @noEscape */ echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/close.png') ?>">
     </div>
     <div class="inpost-content text-center">
 
         <p class="top-container">
-            <img class="block-center" src="<?php echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/inpost-popup-logo.png') ?>">
+            <img class="block-center" src="<?php /* @noEscape */ echo $block->getViewFileUrl('Inpost_Lockers::images/inpost/inpost-popup-logo.png') ?>">
             <iframe class="inpost-video" src="https://www.youtube.com/embed/FlHeMLj_A7Q">
             </iframe>
         </p>
@@ -49,7 +50,7 @@
         <a class="inpost-link button" href="#">Watch Video <i class="fa fa-angle-right" aria-hidden="true"></i></a>
     </div>
 </div>
-<script type="text/javascript">
+<script>
     require(['jquery', 'jquery/ui'], function($){
         $('.lockers-close').on('click', function() {
             $('#inpost-overlay').hide();

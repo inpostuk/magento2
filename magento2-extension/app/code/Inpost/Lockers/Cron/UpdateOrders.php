@@ -15,7 +15,7 @@ class UpdateOrders
 {
     /** @var \Magento\Sales\Model\ResourceModel\Order\Collection */
     private $orderCollection;
-    /** @var \Inpost\Lockers\Adapter\Client */
+    /** @var \Inpost_Api_Client */
     private $adapter;
     /** @var \Inpost\Lockers\Helper\Lockers */
     private $helper;
@@ -23,6 +23,7 @@ class UpdateOrders
     private $history;
     /** @var NotifierPool  */
     private $notifierPool;
+    private $counter;
 
     const MAPPING = [
         'delivered' => [
@@ -89,7 +90,7 @@ class UpdateOrders
 
     public function __construct(
         \Magento\Sales\Model\ResourceModel\Order\Collection $orderCollection,
-        \Inpost\Lockers\Adapter\Client $adapter,
+        \Inpost_Api_Client $adapter,
         \Inpost\Lockers\Helper\Lockers $helper,
         \Magento\Sales\Model\Order\Status\History $history,
         NotifierPool $notifierPool
@@ -104,6 +105,9 @@ class UpdateOrders
 
     public function execute()
     {
+        $this->adapter->setEndpoint($this->helper->getApiEndPoint());
+        $this->adapter->setMerchantEmail($this->helper->getMerchantEmail());
+        $this->adapter->setToken($this->helper->getApiToken());
         $fromDate = date('Y-m-d' . ' 00:00:00', strtotime('-7 day'));
         $toDate = date('Y-m-d' . ' 23:59:59', time());
         $this->orderCollection
@@ -124,7 +128,7 @@ class UpdateOrders
             ])
             ->addFieldToFilter('shipping_method', ['like' => '%inpost_inpost%']);
         if ($this->helper->isActive()) {
-            $counter = [
+            $this->counter = [
                 'avizo' => [
                     'counter' => 0,
                     'search' => 'parcels that haven’t been picked up by customers',
@@ -158,33 +162,47 @@ class UpdateOrders
                 foreach ($order->getShipmentsCollection() as $shipment) {
                     /** @var \Magento\Sales\Model\Order\Shipment\Track $track * */
                     foreach ($shipment->getTracksCollection() as $track) {
-                        if ($track->getCarrierCode() == 'inpost') {
-                            $parcelData = $this->adapter->getParcelData($track->getTrackNumber());
-                            if (array_key_exists($parcelData->status, self::MAPPING)) {
-                                if (self::MAPPING[$parcelData->status]['status'] != $order->getStatus()) {
-                                    $order->setState(self::MAPPING[$parcelData->status]['state']);
-                                    $order->addStatusHistoryComment(
-                                        '',
-                                        self::MAPPING[$parcelData->status]['status']
-                                    )
-                                        ->setIsCustomerNotified(false)
-                                        ->setEntityName('order');
-                                    $order->save();
-                                    if (array_key_exists($parcelData->status, $counter)) {
-                                        $counter[$parcelData->status]['counter']++;
-                                        break;
-                                    }
-                                }
-                            }
+                        $result = $this->processTrack($track, $order);
+                        if ($result) {
+                            break;
                         }
                     }
                 }
             }
-            foreach ($counter as $key => $value) {
+            foreach ($this->counter as $key => $value) {
                 if ($value['counter'] > 0) {
                     $this->notifierPool->addNotice('InPost', sprintf($value['message'], $value['counter']));
                 }
             }
         }
+    }
+
+    private function processTrack($track, $order)
+    {
+        if ($track->getCarrierCode() == 'inpost') {
+            $parcelData = $this->adapter->getParcelData($track->getTrackNumber());
+            if (array_key_exists($parcelData->status, self::MAPPING)) {
+                if (self::MAPPING[$parcelData->status]['status'] != $order->getStatus()) {
+                    $this->setOrderComment($order, $parcelData);
+                    if (array_key_exists($parcelData->status, $this->counter)) {
+                        $this->counter[$parcelData->status]['counter']++;
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    private function setOrderComment($order, $parcelData)
+    {
+        $order->setState(self::MAPPING[$parcelData->status]['state']);
+        $order->addStatusHistoryComment(
+            '',
+            self::MAPPING[$parcelData->status]['status']
+        )
+            ->setIsCustomerNotified(false)
+            ->setEntityName('order');
+        $order->save();
     }
 }

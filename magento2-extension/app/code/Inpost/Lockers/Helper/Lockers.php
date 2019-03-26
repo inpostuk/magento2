@@ -16,7 +16,7 @@ class Lockers
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
     ) {
-    
+
         $this->scopeConfig = $scopeConfig;
     }
 
@@ -35,6 +35,15 @@ class Lockers
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }
+
+    public function getGoogleMapsApiKey()
+    {
+        return $this->scopeConfig->getValue(
+            'carriers/inpost/api_key',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
     public function getMerchantEmail()
     {
         return $this->scopeConfig->getValue(
@@ -71,6 +80,14 @@ class Lockers
     {
         return $this->scopeConfig->getValue(
             'carriers/inpost/weight',
+            \Magento\Store\Model\ScopeInterface::SCOPE_STORE
+        );
+    }
+
+    public function createLabelInMagento()
+    {
+        return $this->scopeConfig->getValue(
+            'carriers/inpost/parcel_create',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
     }

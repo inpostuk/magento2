@@ -19,6 +19,7 @@ use Inpost\Lockers\Api\Data\MachineInterface;
  */
 class Collection extends AbstractSearchResult implements MachineSearchResultsInterface
 {
+    // @codingStandardsIgnoreStart
     /**
      * @var string
      */
@@ -36,4 +37,5 @@ class Collection extends AbstractSearchResult implements MachineSearchResultsInt
     {
         $this->setDataInterfaceName(MachineInterface::class);
     }
+    // @codingStandardsIgnoreEnd
 }

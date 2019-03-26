@@ -23,9 +23,9 @@ class MachineCriteria extends AbstractCriteria implements CriteriaInterface
      *
      * @param string $mapper
      */
-    public function __construct($mapper = '')
+    public function __construct($mapper = MachineCriteriaMapper::class)
     {
-        $this->mapperInterfaceName = $mapper ? : MachineCriteriaMapper::class;
+        $this->mapperInterfaceName = $mapper;
     }
 
     /**

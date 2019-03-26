@@ -84,6 +84,11 @@
                                                 </div>
                                                 <!-- ko if: selectedLockerAddress -->
                                                 <a href="#" class="choose-locker" data-bind="click: showPopup">Change Locker Location</a>
+                                                <div class="field inpost-phone">
+                                                    <label name="telephone">Mobile <span class="grey">(InPost will text you when your parcel is ready)</span></label>
+                                                    <input class="input-text" type="text" id="inpost-phone" name="telephone" aria-required="true" aria-invalid="false">
+                                                    <div class="validation-advice" id="advice-validate-uk-phone-locker-phone" style="display: none;">Please provide your mobile phone number in this format 077 1234 5678</div>
+                                                </div>
                                                 <!-- /ko -->
                                                 <!-- ko ifnot: selectedLockerAddress -->
                                                 <a href="#" class="choose-locker" data-bind="click: showPopup">Choose locker</a>
