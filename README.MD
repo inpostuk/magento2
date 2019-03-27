@@ -6,4 +6,4 @@ With this extension, new shipping method is added where customer will be able to
 
 Demo environment can be seen at https://www.magento2-demo.inpost.nmediasystems.com/
 
-Please contact sales@inpost.co.uk to obtain InPost account.
+Please register at https://pm.inpost.co.uk/register and contact sales@inpost.co.uk to obtain InPost account.
