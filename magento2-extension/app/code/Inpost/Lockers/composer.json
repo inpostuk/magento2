@@ -1,5 +1,5 @@
 {
-    "name": "inpostuk/module-lockers",
+    "name": "nmediasystems/module-inpostuk-lockers",
     "description": "Inpost Lockers module implements service allowing visitors to send their parcels to their locker of choice nearby.",
     "require": {
         "magento/framework": ">=100.0.0",
