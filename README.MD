@@ -4,6 +4,6 @@ This Magento 2 module implements InPost Locker service allowing visitors to send
 
 With this extension, new shipping method is added where customer will be able to navigate lockers in their area and select the most convenient. Locker information is stored within customer order and is communicated to InPost via API during fullfillment and shipping process. Customers are able to track progress of their parcel from within ‘My Account’ area. Problematic parcels are reflected within admin system messages so your Customer Service can communicate and process these orders accordingly.
 
-Demo environment can be seen at https://www.magento2-demo.inpost.nmediasystems.com/
+Demo environment can be seen at http://www.magento2-demo.inpost.nmediasystems.com/
 
 Please register at https://pm.inpost.co.uk/register and contact sales@inpost.co.uk to obtain InPost account.
